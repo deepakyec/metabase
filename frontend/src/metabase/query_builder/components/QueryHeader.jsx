@@ -284,7 +284,7 @@ export default class QueryHeader extends Component {
 
         // delete button
         buttonSections.push([
-          <ArchiveQuestionModal questionId={this.props.card.id} />,
+          <ArchiveQuestionModal key="archive" questionId={this.props.card.id} />,
         ]);
 
         buttonSections.push([
@@ -481,7 +481,7 @@ export default class QueryHeader extends Component {
       };
 
       buttonSections.push([
-        <div className="mr1" style={{ marginLeft: "-15px" }}>
+        <div key="burger" className="mr1" style={{ marginLeft: "-15px" }}>
           <EntityMenu
             triggerIcon="burger"
             items={[

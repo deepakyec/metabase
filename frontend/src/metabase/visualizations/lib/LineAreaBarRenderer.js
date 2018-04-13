@@ -630,6 +630,7 @@ export default function lineAreaBar(element: Element, props: LineAreaBarProps) {
     dimension,
     brushChangeFunctions,
   );
+
   const onGoalHover = addGoalChartAndGetOnGoalHover(
     props,
     xAxisProps.xDomain,
