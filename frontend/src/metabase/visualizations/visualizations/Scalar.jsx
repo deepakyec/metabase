@@ -100,6 +100,10 @@ export default class Scalar extends Component {
       title: t`Multiply by a number`,
       widget: "number",
     },
+    "scalar.link": {
+      title: t`Link`,
+      widget: "input",
+    },
   };
 
   render() {
@@ -182,6 +186,13 @@ export default class Scalar extends Component {
     if (settings["scalar.suffix"]) {
       compactScalarValue = compactScalarValue + settings["scalar.suffix"];
       fullScalarValue = fullScalarValue + settings["scalar.suffix"];
+    }
+    if (settings["scalar.link"]) {
+      compactScalarValue = (
+        <a target="_top" style={{ textDecoration: "none", color: "#2196F3" }} href={settings["scalar.link"]}>
+          {compactScalarValue}
+        </a>
+      );
     }
 
     const clicked = {
