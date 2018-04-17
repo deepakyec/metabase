@@ -18,19 +18,44 @@ export default class VegaLite extends React.Component {
   };
 
   render() {
-    
     const inputspec = this.props.settings["rawhtml.vegajson"] ? JSON.parse(this.props.settings["rawhtml.vegajson"]) : null;
     
-    const barData = {
+    const barData = inputspec ? {
       "values": this.props.data.rows.map(row => ({
-        [inputspec["encoding"]["x"]["field"]]: row[0],
         [inputspec["encoding"]["y"]["field"]]: row[1],
+        [inputspec["encoding"]["color"]["field"]]: row[5],
       })),
-    };
-    console.log(this.props);
+    } : null;
     
     return (
-      inputspec ? <VegaLiteComponent spec={inputspec} data={barData} /> : null
+      barData ? <VegaLiteComponent spec={inputspec} data={barData} /> : null
     );
   }
 }
+
+// {
+//   "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+//   "mark": "bar",
+//   "encoding": {
+//     "x": {
+//         "aggregate": "count",
+//         "type": "quantitative",
+//         "axis": { "title": "Count of Products" }
+//       } ,
+//     "y": {
+//         "field": "category",
+//         "type": "nominal",
+//         "axis": { "title": "Category" }
+//     } ,
+//     "tooltip": {
+//       "aggregate": "count",
+//       "type": "quantitative"
+//     },
+//     "color": {
+//         "field": "rating", 
+//         "bin": true,
+//         "type": "quantitative",
+//         "legend": { "title": "Rating"}
+//     }
+//   }
+// }
