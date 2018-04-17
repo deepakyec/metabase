@@ -104,6 +104,11 @@ export default class Scalar extends Component {
       title: t`Link`,
       widget: "input",
     },
+    "scalar.color": {
+      title: t`Color`,
+      widget: "color",
+      default: "#2E353B",
+    },
   };
 
   render() {
@@ -189,7 +194,7 @@ export default class Scalar extends Component {
     }
     if (settings["scalar.link"]) {
       compactScalarValue = (
-        <a target="_top" style={{ textDecoration: "none", color: "#2196F3" }} href={settings["scalar.link"]}>
+        <a target="_top" style={{ textDecoration: "none" }} href={settings["scalar.link"]}>
           {compactScalarValue}
         </a>
       );
@@ -200,7 +205,6 @@ export default class Scalar extends Component {
       column: cols[0],
     };
     const isClickable = visualizationIsClickable(clicked);
-
     return (
       <div
         className={cx(
@@ -220,9 +224,9 @@ export default class Scalar extends Component {
               "text-brand-hover cursor-pointer": isClickable,
             },
           )}
-          tooltip={fullScalarValue}
-          alwaysShowTooltip={fullScalarValue !== compactScalarValue}
-          style={{ maxWidth: "100%" }}
+          // tooltip={fullScalarValue}
+          // alwaysShowTooltip={fullScalarValue !== compactScalarValue}
+          style={{ maxWidth: "100%", color: settings["scalar.color"] }}
         >
           <span
             onClick={
