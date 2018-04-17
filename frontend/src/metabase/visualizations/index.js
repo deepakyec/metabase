@@ -2,6 +2,7 @@
 
 import Scalar from "./visualizations/Scalar.jsx";
 import RawHtml from "./visualizations/RawHtml.jsx";
+import VegaLite from "./visualizations/VegaLite.jsx";
 import Progress from "./visualizations/Progress.jsx";
 import Table from "./visualizations/Table.jsx";
 import Text from "./visualizations/Text.jsx";
@@ -122,6 +123,7 @@ const extractRemappedColumns = data => {
 
 registerVisualization(Scalar);
 registerVisualization(RawHtml);
+registerVisualization(VegaLite);
 registerVisualization(Progress);
 registerVisualization(Table);
 registerVisualization(Text);
