@@ -9,6 +9,7 @@ export const normal = {
   green: "#9CC177",
   purple: "#A989C5",
   red: "#EF8C8C",
+  brightRed: "#f44336",
   yellow: "#f9d45c",
   orange: "#F1B556",
   teal: "#A6E7F3",
