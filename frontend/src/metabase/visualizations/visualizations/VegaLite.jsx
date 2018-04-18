@@ -18,20 +18,58 @@ export default class VegaLite extends React.Component {
   };
 
   render() {
+    
     const inputspec = this.props.settings["rawhtml.vegajson"] ? JSON.parse(this.props.settings["rawhtml.vegajson"]) : null;
     
     const barData = inputspec ? {
       "values": this.props.data.rows.map(row => ({
-        [inputspec["encoding"]["y"]["field"]]: row[1],
-        [inputspec["encoding"]["color"]["field"]]: row[5],
+        [inputspec["encoding"]["y"]["field"]]: `${row[0]} / ${row[1]}`,
+        [inputspec["encoding"]["color"]["field"]]: row[2],
       })),
     } : null;
-    
+    const sizedInputSpec = inputspec ? {
+      ...inputspec,
+      width: this.props.width,
+      height: this.props.height,
+    } : null;
     return (
-      barData ? <VegaLiteComponent spec={inputspec} data={barData} /> : null
+      barData ? <VegaLiteComponent spec={sizedInputSpec} data={barData} /> : null
     );
   }
 }
+
+// {
+//   "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+//   "width": 400,
+//   "autosize": {
+//     "type": "pad",
+//     "contains": "padding"
+//   },
+//   "mark": "bar",
+//   "encoding": {
+//     "x": {
+//         "aggregate": "count",
+//         "type": "quantitative",
+//         "axis": { "title": "Count of Agreements" }
+//       } ,
+//     "y": {
+//         "field": "client",
+//         "type": "nominal",
+        
+//         "sort": {"op": "count", "order": "descending"},
+//         "axis": { "title": "Client" }
+//     } ,
+//     "tooltip": {
+//       "aggregate": "count",
+//       "type": "quantitative"
+//     },
+//     "color": {
+//         "field": "site",
+//         "type": "",
+//         "legend": { "title": "Site"}
+//     }
+//   }
+// }
 
 // {
 //   "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
