@@ -18,34 +18,34 @@ export default class VegaLite extends React.Component {
   };
 
   render() {
-    
     const inputspec = this.props.settings["rawhtml.vegajson"] ? JSON.parse(this.props.settings["rawhtml.vegajson"]) : null;
     
     const barData = inputspec ? {
       "values": this.props.data.rows.map(row => ({
-        [inputspec["encoding"]["y"]["field"]]: `${row[0]} / ${row[1]}`,
-        [inputspec["encoding"]["color"]["field"]]: row[2],
+        ...row.reduce((acc, curr, i) => ({ ...acc, [this.props.data.columns[i]]: curr }), {})
       })),
     } : null;
     const sizedInputSpec = inputspec ? {
       ...inputspec,
-      width: this.props.width,
-      height: this.props.height,
+      width: this.props.width - 20,
+      height: this.props.height - 20,
     } : null;
     return (
-      barData ? <VegaLiteComponent spec={sizedInputSpec} data={barData} /> : null
+      barData ? <div style={{ padding: 10 }}><VegaLiteComponent spec={sizedInputSpec} data={barData} /></div> : null
     );
   }
 }
 
 // {
 //   "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
-//   "width": 400,
 //   "autosize": {
-//     "type": "pad",
+//     "type": "fit",
 //     "contains": "padding"
 //   },
 //   "mark": "bar",
+//   "transform": [
+//     {"calculate": "datum.client + ' / ' + datum.site", "as": "clientSite"}
+//   ],
 //   "encoding": {
 //     "x": {
 //         "aggregate": "count",
@@ -53,9 +53,8 @@ export default class VegaLite extends React.Component {
 //         "axis": { "title": "Count of Agreements" }
 //       } ,
 //     "y": {
-//         "field": "client",
+//         "field": "clientSite",
 //         "type": "nominal",
-        
 //         "sort": {"op": "count", "order": "descending"},
 //         "axis": { "title": "Client" }
 //     } ,
@@ -64,7 +63,7 @@ export default class VegaLite extends React.Component {
 //       "type": "quantitative"
 //     },
 //     "color": {
-//         "field": "site",
+//         "field": "category",
 //         "type": "",
 //         "legend": { "title": "Site"}
 //     }
