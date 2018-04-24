@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import CheckBox from "metabase/components/CheckBox.jsx";
 import Icon from "metabase/components/Icon.jsx";
+import Select, { Option } from "metabase/components/Select.jsx";
 import { sortable } from "react-sortable";
 
 import cx from "classnames";
@@ -22,7 +23,7 @@ export default class ChartSettingOrderedFields extends Component {
     super(props);
     this.state = {
       draggingIndex: null,
-      data: { items: [...this.props.value] },
+      data: { items: this.props.value.map(item => ({ ...item, type: "normal" })) },
     };
   }
 
@@ -63,6 +64,10 @@ export default class ChartSettingOrderedFields extends Component {
     this.setState({ data: { items } });
     this.props.onChange([...items]);
   };
+
+  handleTypeChange = (value, name) => {
+    this.setState({ data: { items: this.props.value.map(item => ({ ...item, type: item.name === name ? value : item.value })) }});
+  }
 
   render() {
     const { columnNames } = this.props;
@@ -105,6 +110,10 @@ export default class ChartSettingOrderedFields extends Component {
                 onChange={e => this.setEnabled(i, e.target.checked)}
               />
               <span className="ml1 h4">{columnNames[item.name]}</span>
+              <Select value={item.type} onChange={value => this.handleTypeChange(value, item.name)}>
+                <Option key={0} value="normal">Normal</Option>
+                <Option key={1} value="raw">Raw</Option>
+              </Select>
               <Icon
                 className="flex-align-right text-grey-2 mr1 cursor-pointer"
                 name="grabber"
