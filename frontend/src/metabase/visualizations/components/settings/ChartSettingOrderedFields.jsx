@@ -28,13 +28,13 @@ export default class ChartSettingOrderedFields extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ data: { items: [...nextProps.value] } });
+    this.setState({ data: { items: nextProps.value.map(item => ({ ...item, type: "normal" })) } });
   }
 
   updateState = obj => {
     this.setState(obj);
     if (obj.draggingIndex == null) {
-      this.props.onChange([...this.state.data.items]);
+      this.props.onChange(this.state.data.items);
     }
   };
 
@@ -42,7 +42,7 @@ export default class ChartSettingOrderedFields extends Component {
     const items = [...this.state.data.items];
     items[index] = { ...items[index], enabled: checked };
     this.setState({ data: { items } });
-    this.props.onChange([...items]);
+    this.props.onChange(items);
   };
 
   isAnySelected = () => {
@@ -66,11 +66,15 @@ export default class ChartSettingOrderedFields extends Component {
   };
 
   handleTypeChange = (value, name) => {
-    this.setState({ data: { items: this.props.value.map(item => ({ ...item, type: item.name === name ? value : item.value })) }});
+    this.setState({ data: {
+      items: this.state.data.items.map(item => ({
+        ...item, type: item.name === name ? value : item.type,
+      })),
+    }});
+    this.props.onChange(this.state.data.items);
   }
 
   render() {
-    const { columnNames } = this.props;
     const anySelected = this.isAnySelected();
     return (
       <div className="list">
@@ -91,8 +95,8 @@ export default class ChartSettingOrderedFields extends Component {
             </span>
           </div>
         </div>
-        {this.state.data.items.map((item, i) => (
-          <OrderedFieldListItem
+        {this.state.data.items.map((item, i) => {
+          return <OrderedFieldListItem
             key={i}
             updateState={this.updateState}
             items={this.state.data.items}
@@ -109,11 +113,11 @@ export default class ChartSettingOrderedFields extends Component {
                 checked={item.enabled}
                 onChange={e => this.setEnabled(i, e.target.checked)}
               />
-              <span className="ml1 h4">{columnNames[item.name]}</span>
-              <Select value={item.type} onChange={value => this.handleTypeChange(value, item.name)}>
+              <Select className="ml1" value={item.type} onChange={ev => this.handleTypeChange(ev.target.value, item.name)}>
                 <Option key={0} value="normal">Normal</Option>
                 <Option key={1} value="raw">Raw</Option>
               </Select>
+              <span className="ml1 h4">{this.props.columnNames[item.name]}</span>
               <Icon
                 className="flex-align-right text-grey-2 mr1 cursor-pointer"
                 name="grabber"
@@ -122,7 +126,7 @@ export default class ChartSettingOrderedFields extends Component {
               />
             </div>
           </OrderedFieldListItem>
-        ))}
+        })}
       </div>
     );
   }
