@@ -259,20 +259,26 @@ export default class Visualization extends Component {
   };
 
   handleVisualizationClick = (clicked: ClickObject) => {
-    if (clicked) {
-      MetabaseAnalytics.trackEvent(
-        "Actions",
-        "Clicked",
-        `${clicked.column ? "column" : ""} ${clicked.value ? "value" : ""} ${
-          clicked.dimensions ? "dimensions=" + clicked.dimensions.length : ""
-        }`,
-      );
+    const url = this.props.card.visualization_settings["graph.link"];
+    if (url) {
+      const parsedUrl = url.replace('${clientId}', clicked.dimensions[0].value);
+      location.href = parsedUrl;
+    } else {
+      if (clicked) {
+        MetabaseAnalytics.trackEvent(
+          "Actions",
+          "Clicked",
+          `${clicked.column ? "column" : ""} ${clicked.value ? "value" : ""} ${
+            clicked.dimensions ? "dimensions=" + clicked.dimensions.length : ""
+          }`,
+        );
+      }
+  
+      // needs to be delayed so we don't clear it when switching from one drill through to another
+      setTimeout(() => {
+        this.setState({ clicked });
+      }, 100);
     }
-
-    // needs to be delayed so we don't clear it when switching from one drill through to another
-    setTimeout(() => {
-      this.setState({ clicked });
-    }, 100);
   };
 
   // Add the underlying card of current series to onChangeCardAndRun if available

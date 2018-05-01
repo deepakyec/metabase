@@ -168,6 +168,7 @@ export default class ChartClickActions extends Component {
                 />
                 {actions.map((action, index) => (
                   <ChartClickAction
+                    key={index}
                     index={index}
                     action={action}
                     isLastItem={index === actions.length - 1}
