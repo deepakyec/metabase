@@ -259,7 +259,7 @@ export default class Visualization extends Component {
   };
 
   handleVisualizationClick = (clicked: ClickObject) => {
-    const url = this.props.card.visualization_settings["graph.link"];
+    const url = this.props.rawSeries[0].card.visualization_settings["graph.link"];
     if (url) {
       const parsedUrl = url.replace('${clientId}', clicked.dimensions[0].value);
       location.href = parsedUrl;
