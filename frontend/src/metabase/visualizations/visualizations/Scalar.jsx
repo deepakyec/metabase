@@ -15,6 +15,7 @@ import cx from "classnames";
 import d3 from "d3";
 
 import type { VisualizationProps } from "metabase/meta/types/Visualization";
+import RetinaImage from "react-retina-image";
 
 export default class Scalar extends Component {
   props: VisualizationProps;
@@ -102,6 +103,10 @@ export default class Scalar extends Component {
     },
     "scalar.link": {
       title: t`Link`,
+      widget: "input",
+    },
+    "scalar.icon": {
+      title: t`Icon Path`,
       widget: "input",
     },
     "scalar.color": {
@@ -197,6 +202,19 @@ export default class Scalar extends Component {
         <a target="_top" style={{ textDecoration: "none" }} href={settings["scalar.link"]}>
           {compactScalarValue}
         </a>
+      );
+    }
+    if (settings["scalar.icon"]) {
+      compactScalarValue = (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <RetinaImage
+            className="mx1"
+            src={settings["scalar.icon"]}
+            width={30}
+            forceOriginalDimensions={false}
+          />
+          {compactScalarValue}
+        </div>
       );
     }
 
