@@ -26,13 +26,7 @@ export default class LeafletMap extends Component {
       const drawnItems = new L.FeatureGroup();
       map.addLayer(drawnItems);
       const drawControl = (this.drawControl = new L.Control.Draw({
-        draw: {
-          rectangle: false,
-          polyline: false,
-          polygon: false,
-          circle: false,
-          marker: false,
-        },
+        draw: false,
         edit: {
           featureGroup: drawnItems,
           edit: false,
@@ -53,7 +47,7 @@ export default class LeafletMap extends Component {
       console.log(mapTileUrl, retinaUrl);
 
       L.tileLayer(
-        'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{retina}',
         {
           attribution: mapTileAttribution,
           retina: '@2x',
