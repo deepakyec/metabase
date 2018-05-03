@@ -79,6 +79,11 @@ export const GRAPH_DATA_SETTINGS = {
     dashboard: false,
     useRawSeries: true,
   },
+  "graph.link": {
+    section: "Data",
+    title: t`Link`,
+    widget: "input",
+  },
   "graph.metrics": {
     section: "Data",
     title: t`Y-axis`,
