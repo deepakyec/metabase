@@ -43,15 +43,13 @@ export default class LeafletMap extends Component {
         mapTileUrl.indexOf("openstreetmap.org") >= 0
           ? 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
           : null;
-      const retinaUrl = mapTileUrl.split('.png')[0] + '{retina}.png';
-      console.log(mapTileUrl, retinaUrl);
 
       L.tileLayer(
         'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{retina}',
         {
           attribution: mapTileAttribution,
           retina: '@2x',
-          // detectRetina: true,
+          detectRetina: true,
         }
       ).addTo(map);
 
